@@ -1,0 +1,82 @@
+{
+    "name": "@xsecuro/www",
+    "version": "1.0.0",
+    "description": "Interactive website for xsecuro project",
+    "keywords": [
+        "xsecuro",
+        "website",
+        "interactive",
+        "security",
+        "assessment"
+    ],
+    "homepage": "https://github.com/xsecuro/www",
+    "bugs": {
+        "url": "https://github.com/xsecuro/www/issues",
+        "email": "xlebpushek@gmail.com"
+    },
+    "license": "MIT",
+    "author": {
+        "name": "Xlebp Rjanoi",
+        "email": "xlebpushek@gmail.com",
+        "url": "https://github.com/xsecuro"
+    },
+    "funding": {
+        "type": "github",
+        "url": "https://github.com/sponsors/xsecuro"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/xsecuro/www.git"
+    },
+    "scripts": {
+        "dev": "next dev --turbopack",
+        "build": "next build && next-sitemap",
+        "start": "next start",
+        "lint": "next lint"
+    },
+    "dependencies": {
+        "@radix-ui/react-checkbox": "^1.3.2",
+        "@radix-ui/react-slot": "^1.2.3",
+        "@radix-ui/react-tooltip": "^1.2.7",
+        "@vercel/analytics": "^1.5.0",
+        "@vercel/speed-insights": "^1.2.0",
+        "@xsecuro/core": "^1.0.0",
+        "class-variance-authority": "^0.7.1",
+        "clsx": "^2.1.1",
+        "effector": "^23.3.0",
+        "effector-react": "^23.3.0",
+        "framer-motion": "^12.23.0",
+        "lucide-react": "^0.525.0",
+        "next": "^15.3.4",
+        "next-sitemap": "^4.2.3",
+        "next-themes": "^0.4.6",
+        "rc-progress": "^4.0.0",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+        "react-svg": "^16.3.0",
+        "tailwind-merge": "^3.3.1",
+        "tailwindcss-animate": "^1.0.7",
+        "typed.js": "^2.1.0"
+    },
+    "devDependencies": {
+        "@semantic-release/changelog": "^6.0.3",
+        "@semantic-release/git": "^10.0.1",
+        "@svgr/webpack": "^8.1.0",
+        "@tailwindcss/postcss": "^4.1.11",
+        "@types/node": "^24.0.10",
+        "@types/react": "^19.1.8",
+        "@types/react-dom": "^19.1.6",
+        "prettier": "^3.6.2",
+        "prettier-plugin-tailwindcss": "^0.6.13",
+        "semantic-release": "^24.2.7",
+        "shadcn": "^2.7.0",
+        "standard-version": "^9.5.0",
+        "tailwindcss": "^4.1.11",
+        "typescript": "^5.8.3"
+    },
+    "trustedDependencies": [
+        "@tailwindcss/oxide",
+        "esbuild",
+        "sharp"
+    ]
+}

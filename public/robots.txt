@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://xsecuro.vercel.app
+
+# Sitemaps
+Sitemap: https://xsecuro.vercel.app/sitemap.xml
