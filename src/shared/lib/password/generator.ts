@@ -1,4 +1,4 @@
-import { AlgorithmFactory, GenerationParameters, Generator } from '@x-securo/core'
+import { AlgorithmFactory, GenerationParameters, Generator } from '@xsecuro/core'
 
 export const algorithmFactory = new AlgorithmFactory()
 

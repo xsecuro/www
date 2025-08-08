@@ -1,6 +1,6 @@
 import { passwordCharacters } from '@/shared/config/constants'
 import { algorithmFactory } from '@/shared/lib/password/generator'
-import { GenerationParameters } from '@x-securo/core'
+import { GenerationParameters } from '@xsecuro/core'
 import { createEvent, createStore } from 'effector'
 
 const BBSAlgorithm = algorithmFactory.get('BBS')

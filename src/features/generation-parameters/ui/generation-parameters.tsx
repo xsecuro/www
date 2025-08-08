@@ -1,7 +1,7 @@
 'use client'
 
 import { Checkbox } from '@/shared/ui/checkbox'
-import { GenerationCharacterKey } from '@x-securo/core'
+import { GenerationCharacterKey } from '@xsecuro/core'
 import { useUnit } from 'effector-react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { FC } from 'react'
@@ -20,7 +20,7 @@ interface ParameterCheckboxProps {
 
 const ParameterCheckbox = ({ label, isChecked, onChange }: ParameterCheckboxProps) => {
     return (
-        <div className="flex items-center gap-2">
+        <div className='flex items-center gap-2'>
             <Checkbox checked={isChecked} onCheckedChange={onChange} />
             <span>{label}</span>
         </div>
@@ -80,12 +80,12 @@ const GenerationParametersFeature: FC = () => {
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.4 }}
                     onClick={hideGenerationParametersHandler}
-                    className="minimal-scrollbar bg-background/90 absolute top-0 left-0 z-30 flex h-full w-full cursor-pointer flex-wrap items-center justify-center gap-12 overflow-y-scroll p-12 backdrop-blur-sm md:p-12"
+                    className='minimal-scrollbar bg-background/90 absolute top-0 left-0 z-30 flex h-full w-full cursor-pointer flex-wrap items-center justify-center gap-12 overflow-y-scroll p-12 backdrop-blur-sm md:p-12'
                 >
                     {requirements.map((requirement, segmentIndex) => (
-                        <div key={segmentIndex} className="flex flex-col gap-2" onClick={(e) => e.stopPropagation()}>
-                            <h3 className="font-medium">Segment {segmentIndex + 1}</h3>
-                            <div className="flex flex-col gap-2">
+                        <div key={segmentIndex} className='flex flex-col gap-2' onClick={(e) => e.stopPropagation()}>
+                            <h3 className='font-medium'>Segment {segmentIndex + 1}</h3>
+                            <div className='flex flex-col gap-2'>
                                 {Object.entries(parameterLabels).map(([parameterKey, parameterLabel], index) => (
                                     <ParameterCheckbox
                                         key={index}
