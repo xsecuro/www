@@ -31,7 +31,7 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Deploy to Vercel
-              uses: amondnet/vercel-action@v4
+              uses: amondnet/vercel-action@v25
               with:
                   vercel-token: ${{ secrets.VERCEL_TOKEN }}
                   github-token: ${{ secrets.GITHUB_TOKEN }}
