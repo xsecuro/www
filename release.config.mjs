@@ -69,7 +69,6 @@ const semanticReleaseConfig = {
                     '# 📜 Changelog\n\nAll notable changes to this project will be documented in this file.\n\n',
             },
         ],
-        '@semantic-release/npm',
         [
             '@semantic-release/git',
             {
@@ -93,8 +92,6 @@ const semanticReleaseConfig = {
     ],
     tagFormat: 'v${version}',
     preset: 'conventionalcommits',
-    ci: true,
-    dryRun: false,
 }
 
 export default semanticReleaseConfig
