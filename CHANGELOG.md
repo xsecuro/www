@@ -1,5 +1,18 @@
 # 📜 Changelog
 
+All notable changes to this project will be documented in this file.
+
+
+
+## 1.0.0-beta.3 (2025-08-11)
+
+* Merge branch 'dev' of https://github.com/xsecuro/www into dev ([48a25ef](https://github.com/xsecuro/www/commit/48a25ef))
+* feat: trigger sr version ([02f46a0](https://github.com/xsecuro/www/commit/02f46a0))
+* chore: change changelog, tags and release look and feel description ([403ccb9](https://github.com/xsecuro/www/commit/403ccb9))
+* chore: change changelog, tags and release look and feel description ([dcc5326](https://github.com/xsecuro/www/commit/dcc5326))
+
+# 📜 Changelog
+
 ## 1.0.0-beta.2 (2025-08-11)
 
 * feat: trigger sr version ([5afe9e9](https://github.com/xsecuro/www/commit/5afe9e9))
