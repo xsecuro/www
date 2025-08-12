@@ -1,3 +1,10 @@
+# Temporary files
+.tmp/
+.temp/
+
+# Design project
+.design/
+
 # Git & GitHub
 .git/
 .github/
@@ -30,20 +37,16 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Next.js
-.next/
-
-# Testing and coverage
-specs/
-coverage/
-
 # Environment files
 .env
 .env.*
 
-# Temporary files
-.tmp/
-.temp/
+# Testing (not ready) and coverage
+specs/
+coverage/
 
-# Design project
-.design/
+# Next.js
+.next/
+
+# Vercel
+.vercel/

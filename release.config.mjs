@@ -9,55 +9,74 @@ const semanticReleaseConfig = {
         },
     ],
     plugins: [
-        '@semantic-release/commit-analyzer',
+        [
+            '@semantic-release/commit-analyzer',
+            {
+                preset: 'conventionalcommits',
+                parserOpts: {
+                    noteKeywords: ['BREAKING CHANGE', 'BREAKING CHANGES', 'BREAKING'],
+                },
+                releaseRules: [
+                    // Breaking Changes (MAJOR)
+                    { type: 'feat', release: 'minor' },
+                    { type: 'feat', scope: 'BREAKING CHANGE', release: 'major' },
+                    { breaking: true, release: 'major' },
+
+                    // Features (MINOR)
+                    { type: 'feat', release: 'minor' },
+                    { type: 'feature', release: 'minor' },
+
+                    // Bug Fixes (PATCH)
+                    { type: 'fix', release: 'patch' },
+                    { type: 'bugfix', release: 'patch' },
+                    { type: 'hotfix', release: 'patch' },
+
+                    // Performance (PATCH)
+                    { type: 'perf', release: 'patch' },
+
+                    // Refactoring (PATCH)
+                    { type: 'refactor', release: 'patch' },
+                    { type: 'refactor', scope: '*-logic', release: 'patch' },
+
+                    // Documentation and style (no release)
+                    { type: 'docs', release: false },
+                    { type: 'style', release: false },
+
+                    // Tests and build (no no release)
+                    { type: 'test', release: false },
+                    { type: 'build', release: false },
+
+                    // CI/CD (no release)
+                    { type: 'ci', release: false },
+
+                    // Maintenance (no release)
+                    { type: 'chore', release: false },
+                    { type: 'maint', release: false },
+                ],
+            },
+        ],
         [
             '@semantic-release/release-notes-generator',
             {
                 preset: 'conventionalcommits',
                 parserOpts: {
-                    noteKeywords: ['BREAKING CHANGE', 'BREAKING CHANGES'],
+                    noteKeywords: ['BREAKING CHANGE', 'BREAKING CHANGES', 'BREAKING'],
                 },
                 writerOpts: {
                     groupBy: 'type',
-                    commitGroupsSort: (a, b) => {
-                        const order = ['feat', 'fix', 'perf', 'refactor', 'docs', 'chore']
-                        return order.indexOf(a.title) - order.indexOf(b.title)
-                    },
-                    commitsSort: ['scope', 'subject'],
-                    types: [
-                        { type: 'feat', section: '🚀 Features', hidden: false },
-                        { type: 'fix', section: '🐛 Bug Fixes', hidden: false },
-                        { type: 'perf', section: '⚡️ Performance', hidden: false },
-                        { type: 'docs', section: '📚 Documentation', hidden: false },
-                        { type: 'chore', section: '🔧 Maintenance', hidden: false },
-                        { type: 'refactor', section: '♻️ Refactoring', hidden: false },
-                        { type: 'style', section: '💄 Code Style', hidden: false },
-                        { type: 'test', section: '🧪 Tests', hidden: false },
-                        { type: 'build', section: '📦 Build System', hidden: false },
-                        { type: 'ci', section: '👷 CI/CD', hidden: false },
-                    ],
-                },
-                format: {
-                    feat: ({ scope, subject, hash }) =>
-                        `- **${scope ? `${scope}:` : ''} ${subject}** ([${hash.slice(0, 8)}](https://github.com/xsecuro/www/commit/${hash}))`,
-                    fix: ({ scope, subject, hash }) =>
-                        `- **${scope ? `${scope}:` : ''} ${subject}** ([${hash.slice(0, 8)}](https://github.com/xsecuro/www/commit/${hash}))`,
-                    perf: ({ scope, subject, hash }) =>
-                        `- **${scope ? `${scope}:` : ''} ${subject}** ([${hash.slice(0, 8)}](https://github.com/xsecuro/www/commit/${hash}))`,
-                    refactor: ({ scope, subject, hash }) =>
-                        `- **${scope ? `${scope}:` : ''} ${subject}** ([${hash.slice(0, 8)}](https://github.com/xsecuro/www/commit/${hash}))`,
-                    docs: ({ scope, subject, hash }) =>
-                        `- **${scope ? `${scope}:` : ''} ${subject}** ([${hash.slice(0, 8)}](https://github.com/xsecuro/www/commit/${hash}))`,
-                    chore: ({ scope, subject, hash }) =>
-                        `- **${scope ? `${scope}:` : ''} ${subject}** ([${hash.slice(0, 8)}](https://github.com/xsecuro/www/commit/${hash}))`,
-                    style: ({ scope, subject, hash }) =>
-                        `- **${scope ? `${scope}:` : ''} ${subject}** ([${hash.slice(0, 8)}](https://github.com/xsecuro/www/commit/${hash}))`,
-                    test: ({ scope, subject, hash }) =>
-                        `- **${scope ? `${scope}:` : ''} ${subject}** ([${hash.slice(0, 8)}](https://github.com/xsecuro/www/commit/${hash}))`,
-                    build: ({ scope, subject, hash }) =>
-                        `- **${scope ? `${scope}:` : ''} ${subject}** ([${hash.slice(0, 8)}](https://github.com/xsecuro/www/commit/${hash}))`,
-                    ci: ({ scope, subject, hash }) =>
-                        `- **${scope ? `${scope}:` : ''} ${subject}** ([${hash.slice(0, 8)}](https://github.com/xsecuro/www/commit/${hash}))`,
+                    commitsSort: ['subject', 'scope'],
+                    // types: [
+                    //     { type: 'feat', section: '🚀 Features', hidden: false },
+                    //     { type: 'fix', section: '🐛 Bug Fixes', hidden: false },
+                    //     { type: 'perf', section: '⚡️ Performance', hidden: false },
+                    //     { type: 'docs', section: '📚 Documentation', hidden: false },
+                    //     { type: 'chore', section: '🔧 Maintenance', hidden: false },
+                    //     { type: 'refactor', section: '♻️ Refactoring', hidden: false },
+                    //     { type: 'style', section: '💄 Code Style', hidden: false },
+                    //     { type: 'test', section: '🧪 Tests', hidden: false },
+                    //     { type: 'build', section: '📦 Build System', hidden: false },
+                    //     { type: 'ci', section: '👷 CI/CD', hidden: false },
+                    // ],
                 },
             },
         ],

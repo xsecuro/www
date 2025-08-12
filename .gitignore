@@ -1,3 +1,11 @@
+# Temporary files
+.tmp/
+.temp/
+
+# Design project
+.design/
+.vercel
+
 # System files
 *.sw?
 .DS_Store
@@ -15,23 +23,19 @@ desktop.ini
 # Dependencies
 node_modules/
 
+# Environment files
+.env
+.env.*
+
 # Typescript
 next-env.d.ts
-
-# Next.js
-.next/
 
 # Testing (not ready) and coverage
 specs/
 coverage/
 
-# Environment files
-.env
-.env.*
+# Next.js
+.next/
 
-# Temporary files
-.tmp/
-.temp/
-
-# Design project
-.design/
+# Vercel
+.vercel/

@@ -1,0 +1,148 @@
+name: Prerelease
+
+env:
+    VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+    VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [dev]
+
+jobs:
+  prerelease:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22.18.0'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Create GitHub deployment
+        id: deployment
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const deployment = await github.rest.repos.createDeployment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: context.ref,
+              required_contexts: [],
+              environment: 'preview',
+              transient_environment: true,
+              auto_merge: false,
+              description: 'Preview deployment from dev branch'
+            });
+            return deployment.data.id;
+
+      - name: Semantic Release (prerelease)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run prerelease
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Pull Vercel Environment Information
+        run: |
+          vercel pull --yes --environment=preview \
+            --token=$VERCEL_TOKEN \
+            --scope=$VERCEL_ORG_ID \
+            --project=$VERCEL_PROJECT_ID
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Project Artifacts
+        run: |
+          vercel build --prod \
+            --token=$VERCEL_TOKEN \
+            --scope=$VERCEL_ORG_ID
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
+
+      - name: Deploy Project Artifacts
+        run: |
+          vercel deploy --prebuilt --prod \
+            --token=$VERCEL_TOKEN \
+            --scope=$VERCEL_ORG_ID \
+            --project=$VERCEL_PROJECT_ID
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
+
+      - name: Get Vercel URL
+        id: vercel-url
+        run: |
+          URL=$(vercel ls --prod \
+            --token=$VERCEL_TOKEN \
+            --scope=$VERCEL_ORG_ID \
+            --project=$VERCEL_PROJECT_ID \
+            | grep -Eo 'https://[^ ]*\.vercel\.app' \
+            | head -1)
+
+          if [ -z "$URL" ]; then
+            echo "::error::Failed to extract deployment URL"
+            exit 1
+          fi
+
+          echo "url=${URL}" >> $GITHUB_OUTPUT
+          echo "DEPLOY_URL=${URL}" >> $GITHUB_ENV
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
+      - name: Update deployment status
+        if: always()
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const state = '${{ job.status }}' === 'success' ? 'success' : 'failure';
+            await github.rest.repos.createDeploymentStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              deployment_id: ${{ steps.deployment.outputs.result }},
+              state,
+              environment_url: state === 'success' ? '${{ steps.vercel-url.outputs.url }}' : null,
+              log_url: `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${{ github.run_id }}`,
+              description: state === 'success'
+                ? 'Preview deployment succeeded'
+                : 'Preview deployment failed',
+              environment: 'preview'
+            });
+
+      - name: Create PR comment
+        if: github.event_name == 'pull_request' && success()
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const commitMsg = "${{ github.event.pull_request.title }}";
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `
+                ### 🚀 Preview Deployment
+
+                | Detail | Info |
+                |--------|------|
+                | 🔗 **URL** | [Open Preview](${{ steps.vercel-url.outputs.url }}) |
+                | 📌 **Commit** | [${'${{ github.sha }}'.slice(0, 7)}](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}) |
+                | 📝 **Message** | ${commitMsg} |
+                | 📊 **Inspect** | [Vercel Dashboard](https://vercel.com/${{ env.VERCEL_ORG_ID }}/${{ env.VERCEL_PROJECT_ID }}/deployments)
+
+                **Last updated:** ${new Date().toUTCString()}
+              `.trim()
+            });
