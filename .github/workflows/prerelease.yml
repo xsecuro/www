@@ -49,7 +49,7 @@ jobs:
       - name: Semantic Release (prerelease)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm run prerelease
+        run: npm run release
 
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
