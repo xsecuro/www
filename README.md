@@ -1,6 +1,6 @@
 # @xsecuro/www - Open Source Online Password Generator
 
-[![CI Status](https://img.shields.io/github/actions/workflow/status/xsecuro/core/manual-release.yml?label=CI)](https://github.com/xsecuro/www/actions)
+[![CI Status](https://img.shields.io/github/actions/workflow/status/xsecuro/www/release.yml?label=CI)](https://github.com/xsecuro/www/actions)
 [![Vercel Deploy Status](https://img.shields.io/github/deployments/xsecuro/www/production?label=vercel&logo=vercel)](https://github.com/xsecuro/www/deployments)
 [![GitHub Release](https://img.shields.io/github/v/release/xsecuro/www)](https://github.com/xsecuro/www/releases)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
